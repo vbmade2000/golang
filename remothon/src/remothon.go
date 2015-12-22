@@ -3,32 +3,25 @@ package main
 import (
 	"./utilities"
 	"fmt"
-	"strings"
 )
 
-func SendIP(IPs []string)(error){
-
-	emailData := utilities.EmailData{}
-	emailData.To = []string{"malhar.vora@clariontechnologies.co.in"}
-	emailData.From = "malhar.vora@clariontechnologies.co.in"
-	emailData.Subject = "Gift for you"
-	emailData.Message = strings.Join(IPs, ", ")
-
-	serverData := utilities.ServerData{}
-	serverData.Server = "smtp.gmail.com"
-	serverData.Port = 587
-	serverData.Username = "malhar.vora@clariontechnologies.co.in"
-	serverData.Password = ""
-
-	err := utilities.SendEmail(emailData, serverData)
-        return err
-}
-
 func main() {
-  	IPs, err := utilities.GetIPs()
-        err = SendIP(IPs)
-        if err!= nil {
-  		fmt.Println("Error : ", err)
-        }
-        utilities.StartFileServer()
-} 
+	//IPs, err := utilities.GetIPs()
+	emailer := utilities.Emailer{}
+	emailer.To = []string{"vbmade2000@gmail.com"}
+	emailer.From = "mlvora.2010@gmail.com"
+	emailer.Subject = "test subject"
+	emailer.Body = "This is stest body"
+	emailer.SmtpServer = "smtp.gmail.com"
+	emailer.Port = 587
+	emailer.Username = "mlvora.2010@gmail.com"
+	emailer.Password = "meteor001"
+	fmt.Println(emailer.To)
+	emailErr := emailer.Send()
+	if emailErr != nil {
+		fmt.Println("Error : ", emailErr)
+	} else {
+		fmt.Println("Mail is sent successfully")
+	}
+	//utilities.StartFileServer()
+}
